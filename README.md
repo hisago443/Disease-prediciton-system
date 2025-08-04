@@ -210,4 +210,4 @@ For questions or suggestions, please open an issue in the repository.
 
 ---
 
-**Note**: This is a demonstration project and should not be used for actual medical diagnosis. Always consult healthcare professionals for medical advice. 
+**Note**: This is a demonstration project and should not be used for actual medical diagnosis. Always consult healthcare professionals for medical advice.
