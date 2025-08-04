@@ -77,13 +77,14 @@ def load_or_train_models():
         try:
             with open(MODEL_CACHE_FILE, 'rb') as f:
                 cached_data = pickle.load(f)
-                st.success("✅ Loaded pre-trained models from cache!")
                 return cached_data
         except:
             pass
     
     # If no cache, train models (this will only happen once)
-    st.info("🔄 Training models for the first time (this may take a moment)...")
+    # Show training message in sidebar instead of main area
+    with st.sidebar:
+        st.info("🔄 Training models for the first time (this may take a moment)...")
     
     train_data, test_data = load_data()
     if train_data is None or test_data is None:
@@ -157,9 +158,11 @@ def load_or_train_models():
     try:
         with open(MODEL_CACHE_FILE, 'wb') as f:
             pickle.dump(cached_data, f)
-        st.success("✅ Models trained and cached for future use!")
+        with st.sidebar:
+            st.success("✅ Models trained and cached for future use!")
     except:
-        st.warning("⚠️ Could not cache models, but they're ready to use.")
+        with st.sidebar:
+            st.warning("⚠️ Could not cache models, but they're ready to use.")
     
     return cached_data
 
@@ -192,6 +195,13 @@ def main():
     
     # Sidebar
     st.sidebar.title("Navigation")
+    
+    # Add clean status indicator
+    if os.path.exists(MODEL_CACHE_FILE):
+        st.sidebar.success("✅ Models Ready")
+    else:
+        st.sidebar.info("🔄 Loading Models...")
+    
     page = st.sidebar.selectbox(
         "Choose a page",
         ["🏠 Home", "📊 Model Performance", "🔍 Disease Prediction", "📈 Analysis", "ℹ️ About"]
